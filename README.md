@@ -55,6 +55,52 @@ f. Metode enkripsi pada suatu direktori juga berlaku kedalam direktori lainnya y
 
 **Cara Pengerjaan**
 
+**Encrypt**
+
+```
+char ext_cae[] = "9(ku@AW1[Lmvgax6q`5Y2Ry?+sF!^HKQiBXCUSe&0M.b%rI'7d)o4~VfZ*{#:}ETt$3J-zpc]lnh8,GwP_$
+
+void encae(char *input){
+        if(!strcmp(input,".") || !strcmp(input,"..")) return;
+
+        for(i=0;i<strlen(input);i++)
+        {
+                for(ii=0;ii<strlen(ext_cae);ii++){
+                        if(input[i]=='.')
+                        {
+                                return;
+                        }
+                        else if(input[i]==ext_cae[ii]){
+                                input[i] = ext_cae[(ii+17)%strlen(ext_cae)];
+                                break;
+                        }
+                }
+        }
+}
+```
+
+**Decrypt**
+
+```
+void decae(char *input){
+        if(!strcmp(input,".") || !strcmp(input,"..")) return;
+
+        for(int i=0;i<strlen(input);i++)
+        {
+                for(int ii=0;ii<strlen(ext_cae);ii++){
+                        if(input[i]=='.')
+                        {
+                                return;
+                        }
+                        else if(input[i]==ext_cae[ii]){
+                                input[i] = ext_cae[(ii+strlen(ext_cae)-17)%strlen(ext_cae)];
+                                break;
+                        }
+                }
+        }
+}
+```
+
 **Kendala Yang Dialami**
 
 -
