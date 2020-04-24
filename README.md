@@ -214,6 +214,52 @@ INFO::200419-18:29:33::RENAME::/iz1/yena.jpg::/iz1/yena.jpeg
 
 **Cara Pengerjaan**
 
+**Level Warning**
+
+```
+void logWarning(char *input)
+{
+    FILE* fp;
+    char data1[50];
+    fp = fopen("/home/test/fs.log", "a");
+
+    time_t raw;
+    struct tm *timeinfo;
+    char tanggal[40];
+    time(&raw);
+    timeinfo = localtime(&raw);
+
+    strftime(tanggal, sizeof(tanggal), "%y%m%d-%H:%M:%S", timeinfo); 
+    sprintf(data1,"WARNING::%s::%s\n", tanggal, input);
+    fputs(data1, fp);
+
+    fclose(fp);
+}
+```
+
+**Level Info**
+
+```
+void logInfo(char *input)
+{
+    FILE* fp;
+    char data1[50];
+    fp = fopen("/home/test/fs.log", "a");
+
+    time_t raw;
+    struct tm *timeinfo;
+    char tanggal[40];
+    time(&raw);
+    timeinfo = localtime(&raw);
+
+    strftime(tanggal, sizeof(tanggal), "%y%m%d-%H:%M:%S", timeinfo); 
+    sprintf(data1,"INFO::%s::%s\n", tanggal, input);
+    fputs(data1, fp);
+
+    fclose(fp);
+}
+```
+
 **Kendala Yang Dialami**
 
 **Screenshot**
