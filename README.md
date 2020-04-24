@@ -107,6 +107,8 @@ void decae(char *input){
 
 **Screenshot**
 
+![Screenshot1](https://yukiyr.blogspot.com/2020/04/screenshot-sisop2-4.html)
+
 **Soal**
 
 2.	Enkripsi versi 2:
@@ -263,3 +265,5 @@ void logInfo(char *input)
 **Kendala Yang Dialami**
 
 **Screenshot**
+
+![Screenshot4](https://yukiyr.blogspot.com/2020/04/screenshot-sisop2-4.html)
