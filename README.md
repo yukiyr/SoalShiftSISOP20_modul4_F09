@@ -103,7 +103,7 @@ void decae(char *input){
 
 **Kendala Yang Dialami**
 
--
+Enkripsi masih dilakukan untuk semua jenis nama folder, belum terkhusus "encv1_"
 
 **Screenshot**
 
@@ -130,8 +130,6 @@ f. Metode enkripsi pada suatu direktori juga berlaku kedalam direktori lain yang
 **Cara Pengerjaan**
 
 **Kendala Yang Dialami**
-
--
 
 **Screenshot**
 
