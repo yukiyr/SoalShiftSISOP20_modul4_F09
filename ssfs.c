@@ -51,6 +51,44 @@ void decae(char *input){
 	}
 }
 
+void logInfo(char *input)
+{
+    FILE* fp;
+    char data1[50];
+    fp = fopen("/home/test/fs.log", "a");
+
+    time_t raw;
+    struct tm *timeinfo;
+    char tanggal[40];
+    time(&raw);
+    timeinfo = localtime(&raw);
+
+    strftime(tanggal, sizeof(tanggal), "%y%m%d-%H:%M:%S", timeinfo); 
+    sprintf(data1,"INFO::%s::%s\n", tanggal, input);
+    fputs(data1, fp);
+
+    fclose(fp);
+}
+
+void logWarning(char *input)
+{
+    FILE* fp;
+    char data1[50];
+    fp = fopen("/home/test/fs.log", "a");
+
+    time_t raw;
+    struct tm *timeinfo;
+    char tanggal[40];
+    time(&raw);
+    timeinfo = localtime(&raw);
+
+    strftime(tanggal, sizeof(tanggal), "%y%m%d-%H:%M:%S", timeinfo); 
+    sprintf(data1,"WARNING::%s::%s\n", tanggal, input);
+    fputs(data1, fp);
+
+    fclose(fp);
+}
+
 static int xmp_getattr(const char *path, struct stat *stbuf)
 {
 	char filepath[121];
@@ -116,18 +154,11 @@ static int xmp_read(const char *path, char *buf, size_t size, off_t offset,
 {
 	char filepath[121];
 	sprintf(filepath, "%s", path);
-        //int result;
-        //char compare[20];
-        //strcpy(compare, "encv1_");
-        //char* compare1 = getFilename(filepath);
-        //result = strcmp(compare,compare1);
-        //if(result == 0)
-        //{
+
         char * pin = strstr(path,"encv1_");
 	if(pin!=NULL){
         	decae(pin);
 	}
-        //}
 
   	char fpath[1000];
 	sprintf(fpath, "%s%s",dirpath,filepath);
@@ -151,6 +182,7 @@ static int xmp_write(const char *path, const char *buf, size_t size,
 		     off_t offset, struct fuse_file_info *fi)
 {
 	char filepath[121];
+	char input[121];
 	sprintf(filepath, "%s", path);
         char * pin = strstr(path,"encv1_");
 	if(pin!=NULL){
@@ -171,8 +203,87 @@ static int xmp_write(const char *path, const char *buf, size_t size,
 	if (res == -1)
 		res = -errno;
 
+	sprintf(input,"WRITE::%s",path);
+	logInfo(input);
+
 	close(fd);
 	return res;
+}
+
+static int xmp_mkdir(const char *path, mode_t mode)
+{
+	int res;
+	char filepath[121];
+	char input[121];
+	sprintf(filepath, "%s", path);
+        char * pin = strstr(path,"encv1_");
+	if(pin!=NULL){
+        	decae(pin);
+	}
+  	char fpath[1000];
+	sprintf(fpath, "%s%s",dirpath,filepath);
+	res = mkdir(fpath, mode);
+	sprintf(input,"MKDIR::%s",path);
+	logInfo(input);
+	if (res == -1)
+		return -errno;
+
+	return 0;
+}
+
+static int xmp_rmdir(const char *path)
+{
+	int res;
+	char filepath[121];
+	char input[121];
+	sprintf(filepath, "%s", path);
+        char * pin = strstr(path,"encv1_");
+	if(pin!=NULL){
+        	decae(pin);
+	}
+  	char fpath[1000];
+	sprintf(fpath, "%s%s",dirpath,filepath);
+	res = rmdir(fpath);
+	sprintf(input,"RMDIR::%s",path);
+	logWarning(input);
+	if (res == -1)
+		return -errno;
+
+	return 0;
+}
+
+static int xmp_rename(const char *from, const char *to)
+{
+	int res;
+	char input[121];
+	res = rename(from, to);
+	sprintf(input,"RENAME::%s::%s",from,to);
+	logInfo(input);
+	if (res == -1)
+		return -errno;
+
+	return 0;
+}
+
+static int xmp_unlink(const char *path)
+{
+	int res;
+	char filepath[121];
+	char input[121];
+	sprintf(filepath, "%s", path);
+        char * pin = strstr(path,"encv1_");
+	if(pin!=NULL){
+        	decae(pin);
+	}
+  	char fpath[1000];
+	sprintf(fpath, "%s%s",dirpath,filepath);
+	res = unlink(fpath);
+	sprintf(input,"UNLINK::%s",path);
+	logWarning(input);
+	if (res == -1)
+		return -errno;
+
+	return 0;
 }
 
 static struct fuse_operations xmp_oper = {
@@ -180,6 +291,10 @@ static struct fuse_operations xmp_oper = {
 	.readdir	= xmp_readdir,
 	.read		= xmp_read,
   	.write 		= xmp_write,
+	.mkdir		= xmp_mkdir,
+	.rmdir		= xmp_rmdir,
+	.rename		= xmp_rename,
+	.unlink		= xmp_unlink,
 
 };
 
