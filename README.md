@@ -79,6 +79,8 @@ void encae(char *input){
 }
 ```
 
+Melakukan enkripsi dengan caesar chiper dengan key yang dipakai 17. Jika sudah menemui titik maka fungsi akan berhenti karena ekstensi file tidak dienkripsi.
+
 **Decrypt**
 
 ```
@@ -100,6 +102,8 @@ void decae(char *input){
         }
 }
 ```
+
+Hampir sama seperti enkripsi, tetapi karena ini dekripsi maka beda di perhitungannya saja.
 
 **Kendala Yang Dialami**
 
@@ -237,6 +241,8 @@ void logWarning(char *input)
 }
 ```
 
+Mencatat log ke dalam fs.log untuk syscall rmdir dan unlink. Ini merupakan log file level "WARNING".
+
 **Level Info**
 
 ```
@@ -259,6 +265,8 @@ void logInfo(char *input)
     fclose(fp);
 }
 ```
+
+Mencatat log ke dalam fs.log untuk syscall selain rmdir dan unlink. Ini merupakan log file level "INFO".
 
 **Kendala Yang Dialami**
 
