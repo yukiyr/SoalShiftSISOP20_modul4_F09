@@ -107,7 +107,7 @@ void decae(char *input){
 
 **Screenshot**
 
-![Screenshot1](https://yukiyr.blogspot.com/2020/04/screenshot-sisop2-4.html)
+![Screenshot1](https://1.bp.blogspot.com/-e0i234grhx8/XqK2XWyUQhI/AAAAAAAAAzM/9dNK926UCLclAVXJcPvTFg2BFwd8MW84QCLcBGAsYHQ/s1600/Screenshot%2Bfrom%2B2020-04-24%2B17-45-29.png)
 
 **Soal**
 
@@ -266,4 +266,4 @@ void logInfo(char *input)
 
 **Screenshot**
 
-![Screenshot4](https://yukiyr.blogspot.com/2020/04/screenshot-sisop2-4.html)
+![Screenshot4](https://1.bp.blogspot.com/-U1k_7RPB7zc/XqK2XjntMfI/AAAAAAAAAzQ/JboXrpTuHQIRgrP0b2E3L147mZC3xZiTACLcBGAsYHQ/s1600/Screenshot%2Bfrom%2B2020-04-24%2B17-48-48.png)
