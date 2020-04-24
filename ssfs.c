@@ -53,50 +53,47 @@ void decae(char *input){
 
 void logInfo(char *input)
 {
-    FILE* fp;
-    char data1[50];
-    fp = fopen("/home/test/fs.log", "a");
+    	FILE* fp;
+    	char data1[50];
+    	fp = fopen("/home/test/fs.log", "a");
 
-    time_t raw;
-    struct tm *timeinfo;
-    char tanggal[40];
-    time(&raw);
-    timeinfo = localtime(&raw);
+    	time_t raw;
+    	struct tm *timeinfo;
+    	char tanggal[40];
+    	time(&raw);
+    	timeinfo = localtime(&raw);
 
-    strftime(tanggal, sizeof(tanggal), "%y%m%d-%H:%M:%S", timeinfo); 
-    sprintf(data1,"INFO::%s::%s\n", tanggal, input);
-    fputs(data1, fp);
+    	strftime(tanggal, sizeof(tanggal), "%y%m%d-%H:%M:%S", timeinfo); 
+    	sprintf(data1,"INFO::%s::%s\n", tanggal, input);
+    	fputs(data1, fp);
 
-    fclose(fp);
+    	fclose(fp);
 }
 
 void logWarning(char *input)
 {
-    FILE* fp;
-    char data1[50];
-    fp = fopen("/home/test/fs.log", "a");
+    	FILE* fp;
+    	char data1[50];
+    	fp = fopen("/home/test/fs.log", "a");
 
-    time_t raw;
-    struct tm *timeinfo;
-    char tanggal[40];
-    time(&raw);
-    timeinfo = localtime(&raw);
+    	time_t raw;
+    	struct tm *timeinfo;
+    	char tanggal[40];
+    	time(&raw);
+    	timeinfo = localtime(&raw);
 
-    strftime(tanggal, sizeof(tanggal), "%y%m%d-%H:%M:%S", timeinfo); 
-    sprintf(data1,"WARNING::%s::%s\n", tanggal, input);
-    fputs(data1, fp);
+    	strftime(tanggal, sizeof(tanggal), "%y%m%d-%H:%M:%S", timeinfo); 
+    	sprintf(data1,"WARNING::%s::%s\n", tanggal, input);
+    	fputs(data1, fp);
 
-    fclose(fp);
+    	fclose(fp);
 }
 
 static int xmp_getattr(const char *path, struct stat *stbuf)
 {
 	char filepath[121];
 	sprintf(filepath, "%s", path);
-	char * pin = strstr(path,"encv1_");
-	if(pin!=NULL){
-		encae(pin);
-	}
+	encae(filepath);
   	int res;
 	char fpath[1000];
 	sprintf(fpath,"%s%s",dirpath,filepath);
@@ -113,10 +110,8 @@ static int xmp_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
 {
 	char filepath[121];
 	sprintf(filepath, "%s", path);
-        char * pin = strstr(path,"encv1_");
-	if(pin!=NULL){
-		encae(pin);
-	}
+
+	encae(filepath);
   	char fpath[1000];
 	sprintf(fpath, "%s%s",dirpath,filepath);
 	int res = 0;
@@ -137,10 +132,9 @@ static int xmp_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
 		st.st_ino = de->d_ino;
 		st.st_mode = de->d_type << 12;
 
-    		stringnama=de->d_name;
-		if(pin!=NULL){
-			decae(stringnama);
-		}
+                stringnama=de->d_name;
+		decae(stringnama);
+
 		res = (filler(buf, stringnama, &st, 0));
 			if(res!=0) break;
 	}
@@ -155,10 +149,7 @@ static int xmp_read(const char *path, char *buf, size_t size, off_t offset,
 	char filepath[121];
 	sprintf(filepath, "%s", path);
 
-        char * pin = strstr(path,"encv1_");
-	if(pin!=NULL){
-        	encae(pin);
-	}
+        encae(filepath);
 
   	char fpath[1000];
 	sprintf(fpath, "%s%s",dirpath,filepath);
@@ -184,10 +175,8 @@ static int xmp_write(const char *path, const char *buf, size_t size,
 	char filepath[121];
 	char input[121];
 	sprintf(filepath, "%s", path);
-        char * pin = strstr(path,"encv1_");
-	if(pin!=NULL){
-		encae(pin);
-	}
+
+	decae(filepath);
 	int fd;
 	int res;
 
@@ -216,10 +205,8 @@ static int xmp_mkdir(const char *path, mode_t mode)
 	char filepath[121];
 	char input[121];
 	sprintf(filepath, "%s", path);
-        char * pin = strstr(path,"encv1_");
-	if(pin!=NULL){
-        	encae(pin);
-	}
+
+        encae(filepath);
   	char fpath[1000];
 	sprintf(fpath, "%s%s",dirpath,filepath);
 	res = mkdir(fpath, mode);
@@ -237,10 +224,8 @@ static int xmp_rmdir(const char *path)
 	char filepath[121];
 	char input[121];
 	sprintf(filepath, "%s", path);
-        char * pin = strstr(path,"encv1_");
-	if(pin!=NULL){
-        	encae(pin);
-	}
+
+        encae(filepath);
   	char fpath[1000];
 	sprintf(fpath, "%s%s",dirpath,filepath);
 	res = rmdir(fpath);
@@ -271,10 +256,8 @@ static int xmp_unlink(const char *path)
 	char filepath[121];
 	char input[121];
 	sprintf(filepath, "%s", path);
-        char * pin = strstr(path,"encv1_");
-	if(pin!=NULL){
-        	encae(pin);
-	}
+        encae(filepath);
+
   	char fpath[1000];
 	sprintf(fpath, "%s%s",dirpath,filepath);
 	res = unlink(fpath);
