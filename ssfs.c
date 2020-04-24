@@ -95,7 +95,7 @@ static int xmp_getattr(const char *path, struct stat *stbuf)
 	sprintf(filepath, "%s", path);
 	char * pin = strstr(path,"encv1_");
 	if(pin!=NULL){
-		decae(pin);
+		encae(pin);
 	}
   	int res;
 	char fpath[1000];
@@ -115,7 +115,7 @@ static int xmp_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
 	sprintf(filepath, "%s", path);
         char * pin = strstr(path,"encv1_");
 	if(pin!=NULL){
-		decae(pin);
+		encae(pin);
 	}
   	char fpath[1000];
 	sprintf(fpath, "%s%s",dirpath,filepath);
@@ -139,7 +139,7 @@ static int xmp_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
 
     		stringnama=de->d_name;
 		if(pin!=NULL){
-			encae(stringnama);
+			decae(stringnama);
 		}
 		res = (filler(buf, stringnama, &st, 0));
 			if(res!=0) break;
@@ -157,7 +157,7 @@ static int xmp_read(const char *path, char *buf, size_t size, off_t offset,
 
         char * pin = strstr(path,"encv1_");
 	if(pin!=NULL){
-        	decae(pin);
+        	encae(pin);
 	}
 
   	char fpath[1000];
@@ -186,7 +186,7 @@ static int xmp_write(const char *path, const char *buf, size_t size,
 	sprintf(filepath, "%s", path);
         char * pin = strstr(path,"encv1_");
 	if(pin!=NULL){
-		decae(pin);
+		encae(pin);
 	}
 	int fd;
 	int res;
@@ -218,7 +218,7 @@ static int xmp_mkdir(const char *path, mode_t mode)
 	sprintf(filepath, "%s", path);
         char * pin = strstr(path,"encv1_");
 	if(pin!=NULL){
-        	decae(pin);
+        	encae(pin);
 	}
   	char fpath[1000];
 	sprintf(fpath, "%s%s",dirpath,filepath);
@@ -239,7 +239,7 @@ static int xmp_rmdir(const char *path)
 	sprintf(filepath, "%s", path);
         char * pin = strstr(path,"encv1_");
 	if(pin!=NULL){
-        	decae(pin);
+        	encae(pin);
 	}
   	char fpath[1000];
 	sprintf(fpath, "%s%s",dirpath,filepath);
@@ -273,7 +273,7 @@ static int xmp_unlink(const char *path)
 	sprintf(filepath, "%s", path);
         char * pin = strstr(path,"encv1_");
 	if(pin!=NULL){
-        	decae(pin);
+        	encae(pin);
 	}
   	char fpath[1000];
 	sprintf(fpath, "%s%s",dirpath,filepath);
