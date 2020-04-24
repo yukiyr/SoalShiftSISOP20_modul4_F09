@@ -135,6 +135,8 @@ f. Metode enkripsi pada suatu direktori juga berlaku kedalam direktori lain yang
 
 **Kendala Yang Dialami**
 
+Belum sempat mengerjakan
+
 **Screenshot**
 
 **Soal**
@@ -165,6 +167,8 @@ Implementasi dilarang menggunakan symbolic links dan thread.
 **Cara Pengerjaan**
 
 **Kendala Yang Dialami**
+
+Belum sempat mengerjakan
 
 **Screenshot**
 
