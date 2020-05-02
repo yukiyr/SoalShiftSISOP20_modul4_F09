@@ -174,6 +174,8 @@ void encriptionTwo(char * path){
 }
 ```
 
+Split file menjadi bagian kecil-kecil sebesar 1024kb.
+
 Encrypt Folder
 
 ```
@@ -201,6 +203,8 @@ void encriptionTwoDir(char * dir){
 	closedir(dp);
 }
 ```
+
+Jika folder akan looping terus sampai menemukan file untuk dienkripsi dengan fungsi sebelumnya.
 
 **Kendala Yang Dialami**
 
