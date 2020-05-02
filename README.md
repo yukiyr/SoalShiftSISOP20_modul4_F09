@@ -60,22 +60,31 @@ f. Metode enkripsi pada suatu direktori juga berlaku kedalam direktori lainnya y
 ```
 char ext_cae[] = "9(ku@AW1[Lmvgax6q`5Y2Ry?+sF!^HKQiBXCUSe&0M.b%rI'7d)o4~VfZ*{#:}ETt$3J-zpc]lnh8,GwP_$
 
-void encae(char *input){
-        if(!strcmp(input,".") || !strcmp(input,"..")) return;
-
-        for(i=0;i<strlen(input);i++)
-        {
-                for(ii=0;ii<strlen(ext_cae);ii++){
-                        if(input[i]=='.')
-                        {
-                                return;
-                        }
-                        else if(input[i]==ext_cae[ii]){
-                                input[i] = ext_cae[(ii+17)%strlen(ext_cae)];
-                                break;
-                        }
-                }
-        }
+void encriptionLength(char* enc, int length) {
+	if(strcmp(enc, ".") == 0 || strcmp(enc, "..") == 0)return;
+	for(int i = length; i >= 0; i--){
+		if(enc[i]=='/')break;
+		if(enc[i]=='.'){
+			length = i;
+			break;
+		}
+	}
+	int start = 0;
+	for(int i = 0; i < length; i++){
+		if(enc[i] == '/'){
+			start = i+1;
+			break;
+		}
+	}
+    	for ( int i = start; i < length; i++) {
+		if(enc[i]=='/')continue;
+        	for (int j = 0; j < 87; j++) {
+            		if(enc[i] == key[j]) {
+                		enc[i] = key[(j+10) % 87];
+                		break;
+            		}
+        	}
+    	}
 }
 ```
 
@@ -84,30 +93,38 @@ Melakukan enkripsi dengan caesar chiper dengan key yang dipakai 17. Jika sudah m
 **Decrypt**
 
 ```
-void decae(char *input){
-        if(!strcmp(input,".") || !strcmp(input,"..")) return;
-
-        for(int i=0;i<strlen(input);i++)
-        {
-                for(int ii=0;ii<strlen(ext_cae);ii++){
-                        if(input[i]=='.')
-                        {
-                                return;
-                        }
-                        else if(input[i]==ext_cae[ii]){
-                                input[i] = ext_cae[(ii+strlen(ext_cae)-17)%strlen(ext_cae)];
-                                break;
-                        }
-                }
-        }
+void decriptionLength(char * enc, int length){
+	if(strcmp(enc, ".") == 0 || strcmp(enc, "..") == 0)return;
+	if(strstr(enc, "/") == NULL)return;
+	for(int i = length; i >= 0; i--){
+		if(enc[i]=='/')break;
+		if(enc[i]=='.'){
+			length = i;
+			break;
+		}
+	}
+	int start = length;
+	for(int i = 0; i < length; i++){
+		if(enc[i] == '/'){
+			start = i+1;
+			break;
+		}
+	}
+    	for ( int i = start; i < length; i++) {
+		if(enc[i]=='/')continue;
+        	for (int j = 0; j < 87; j++) {
+            		if(enc[i] == key[j]) {
+                		enc[i] = key[(j+77) % 87];
+                		break;
+            		}
+        	}
+    	}
 }
 ```
 
 Hampir sama seperti enkripsi, tetapi karena ini dekripsi maka beda di perhitungannya saja.
 
 **Kendala Yang Dialami**
-
-Enkripsi masih dilakukan untuk semua jenis nama folder, belum terkhusus "encv1_"
 
 **Screenshot**
 
@@ -133,9 +150,61 @@ f. Metode enkripsi pada suatu direktori juga berlaku kedalam direktori lain yang
 
 **Cara Pengerjaan**
 
+Encrypt file
+
+```
+void encriptionTwo(char * path){
+	FILE * file = fopen(path, "rb");
+	int count = 0;
+	char topath[1000];
+	sprintf(topath, "%s.%03d", path, count);
+	void * buffer = malloc(1024);
+	while(1){
+		size_t readSize = fread(buffer, 1, 1024, file);
+		if(readSize == 0)break;
+		FILE * op = fopen(topath, "w");
+		fwrite(buffer, 1, readSize, op);
+		fclose(op);
+		count++;
+		sprintf(topath, "%s.%03d", path, count);
+	}
+	free(buffer);
+	fclose(file);
+	remove(path);
+}
+```
+
+Encrypt Folder
+
+```
+void encriptionTwoDir(char * dir){
+	DIR *dp;
+	struct dirent *de;
+	dp = opendir(dir);
+	if (dp == NULL)
+		return;
+	char dirPath[1000];
+	char filePath[1000];
+	while ((de = readdir(dp)) != NULL) {
+		if(strcmp(de->d_name, ".") == 0 || strcmp(de->d_name, "..") == 0){
+			continue;
+		}
+		if(de->d_type == DT_DIR){
+			sprintf(dirPath, "%s/%s", dir, de->d_name);
+			encriptionTwoDir(dirPath);
+		}
+		else if(de->d_type == DT_REG){
+			sprintf(filePath, "%s/%s", dir, de->d_name);
+			encriptionTwo(filePath);
+		}
+	}
+	closedir(dp);
+}
+```
+
 **Kendala Yang Dialami**
 
-Belum sempat mengerjakan
+Belum membuat decrypt dan fungsi encrypt masih belum bisa.
 
 **Screenshot**
 
@@ -168,7 +237,7 @@ Implementasi dilarang menggunakan symbolic links dan thread.
 
 **Kendala Yang Dialami**
 
-Belum sempat mengerjakan
+Belum mengerjakan
 
 **Screenshot**
 
